@@ -1,12 +1,17 @@
 {
-  "name": "node-example",
-  "version": "0.0.1",
+  "name": "ohq",
+  "version": "0.1.0",
+  "author": "Kyle Hardgrave <kyle@kylehardgrave.com>",
+  "description": "A simple tool for managing TA office hours",
   "dependencies": {
-    "express": "3.0.x",
+    "express": "2.5.x",
+    "socket.io": "0.9.x",
     "hbs": "1.0.x",
-    "socket.io": "0.9.x"
+    "hbs": "1.0.x",
+    "underscore": "1.3.x"
   },
-  "engines": {
+  "engine": {
     "node": "0.8.x"
-  }
+  },
+  "license": "MIT"
 }

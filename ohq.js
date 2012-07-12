@@ -3,22 +3,24 @@
  * @author kyle@kylehardgrave.com (Kyle Hardgrave)
  */
 var express = require('express'),
-  io = require('socket.io'),
-  hbs = require('hbs');
+  app = express.createServer(),
+  io = require('socket.io').listen(app),
+  hbs = require('hbs'),
+  _ = require('underscore'),
+  fs = require('fs');
 
-var app = express.createServer(express.logger());
-io = io.listen(app);
 
-
-/*
- * Config
- */
+// Main Config
+// -----------
 app.configure(function(){
   app.enable('templateDir');
   app.set('templateDir', '/templates');
 
   app.enable('staticDir');
-  app.enable('staticDir', '/static');
+  app.set('staticDir', '/static');
+
+  app.enable('frontend_templates');
+  app.set('frontend_templates', ['queue', 'queue_item']);
 
   app.set('view engine', 'hbs');
   // app.register('.html', hbs); // Allows using .html
@@ -29,31 +31,54 @@ app.configure(function(){
   app.use(app.router);
 
   // Dev Config (TODO: Put these in a separate app.config)
-  app.use(express.static(__dirname + app.settings['staticDir']));
+  app.use('/static', express.static(__dirname + app.settings['staticDir']));
   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
   app.set('views', __dirname + app.settings['templateDir']);
 });
 
 
-/*
- * Main Functionality
- */
+// Main Routers
+// ------------
+
+// Add necessary headers
+app.get('/*', function(req, res, next) {
+  res.header('X-UA-Compatible', 'IE=edge,chrome=1');
+
+  // Continue  to the next matching method
+  next();
+});
+
+// Render and serve the main page
 app.get('/', function(req, res) {
   res.render('index.hbs', {
-    pageTitle: 'Office Hours Queue',
+    layout: false, // Necessary to send whole page
     staticDir: app.settings['staticDir'],
-    youAreUsingJade: req.param('jade', '0') == '1',
-    layout: false
+
+    // Read and send along the templates
+    templates: _.map(app.settings['frontend_templates'], function(tplName) {
+      fs.readFile(__dirname + app.settings['templateDir'] + 
+          '/' + tplName + '.hbs', function(fileData) {
+        return {
+          template_name: tplName,
+          template: '' + fileData
+        }
+      });
+    })
   });
 });
 
-io.sockets.on('enqueue', function(name) {
-  io.sockets.emit('newEnqueue', { name: name });
-  console.log('Received enqueue request for ' + name);
-});
+// io.sockets.on('connection', function(socket) {
+//   console.log('New socket connected.');
+//   io.sockets.emit('message', { body: 'Someone joined!' });
+  
+//   socket.   on('submit', function(nameObj) {
+//     var name = nameObj.name;
+//     console.log('Received enqueue request for ' + name);
+//     io.sockets.emit('enqueue', { name: name });
+//   });
+// });
 
 
-/*
- * Listen Up
- */
-app.listen(5000);
+// Leggo
+// -----
+app.listen(8080);
