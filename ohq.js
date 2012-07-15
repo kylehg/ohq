@@ -20,7 +20,7 @@ app.configure(function(){
   app.set('staticDir', '/static');
 
   app.enable('frontend_templates');
-  app.set('frontend_templates', ['queue', 'queue_item']);
+  app.set('frontend_templates', ['queue_item']);
 
   app.set('view engine', 'hbs');
   // app.register('.html', hbs); // Allows using .html
@@ -52,7 +52,7 @@ app.get('/*', function(req, res, next) {
 app.get('/', function(req, res) {
   res.render('index.hbs', {
     layout: false, // Necessary to send whole page
-    staticDir: app.settings['staticDir'],
+    static_dir: app.settings['staticDir'],
 
     // Read and send along the templates
     templates: _.map(app.settings['frontend_templates'], function(tplName) {

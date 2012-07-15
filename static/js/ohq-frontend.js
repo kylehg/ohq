@@ -164,28 +164,34 @@ ohq.init = function(qData) {
   ohq.queue = new ohq.Queue();
   ohq.App = new ohq.AppView({ collection: ohq.queue });
 
+  var testData = {
+    queue: [
+      ohq.newQItem('Foo', 1341986277070, true),
+      ohq.newQItem('Bar', 1341986639643, false),
+      ohq.newQItem('Baz', 1341986652980, false),
+      ohq.newQItem('Bux', 1341986279661, true),
+    ],
+    ta_present: true
+  };
+
+  // for (var i = 0; i < testData.queue.length; i++) {
+  //   ohq.queue.create({ name: testData.queue[i]['name'] })
+  // }
+
   // Initiate socket connection
   // ohq.socket = io.connect(ohq.SOCKET_SERVER);
   // ohq.templates = {
   //   queue: ohq.getTpl('queue'),
   //   queue_item: ohq.getTpl('queue_item')
+
+  return true;
 };
 
-// var testData = {
-//   queue: [
-//     ohq.newQItem('Foo', 1341986277070, true),
-//     ohq.newQItem('Bar', 1341986639643, false),
-//     ohq.newQItem('Baz', 1341986652980, false),
-//     ohq.newQItem('Bux', 1341986279661, true),
-//   ],
-//   ta_present: true
-// };
-
-// ohq.newQItem = function(name, time, canEdit) {
-//   return {
-//     name: name,
-//     enqueue_time: time,
-//     human_enqueue_time: (new Date(time)).toString(),
-//     can_edit: canEdit
-//   };
-// };
+ohq.newQItem = function(name, time, canEdit) {
+  return {
+    name: name,
+    enqueue_time: time,
+    human_enqueue_time: (new Date(time)).toString(),
+    can_edit: canEdit
+  };
+};

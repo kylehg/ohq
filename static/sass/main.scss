@@ -1,8 +1,202 @@
-/* Welcome to Compass.
- * In this file you should write your main styles. (or centralize your imports)
- * Import this file using the following HTML or equivalent:
- * <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css" /> */
+/**
+ * Office Hours Queue Styles
+ */
 
-@import "compass/reset";
+/**
+ * Imports
+ */
+//@import "compass/reset";
+@import "normalize";
+@import "compass/css3/box-shadow";
+//TODO: Make this work
+//@import url(http://fonts.googleapis.com/css?family=Bitter:400,700,400italic|Open+Sans:400italic,600italic,700italic,800italic,400,600,700,800);
 
-$accent_font_family: "museo-sans-1, museo-sans-2, "Helvetica Neue", Helvetica, Arial, sans-serif'
+
+
+/**
+ * Variables
+ */
+$body_font: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$accent_font: Bitter, "Century Gothic", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$max-width: 500px;
+
+
+/**
+ * Base
+ */
+html, button, input, select, textarea {
+  font-family: $body_font;
+  color: #222;
+}
+
+body {
+  font-size: 18px; 
+  line-height: 1.4;
+  background: #eee url("../img/gplaypattern.png") repeat;  
+}
+
+// These have to be separate
+@mixin selection {
+  background: #b3d4fc;
+  text-shadow: none;
+}
+::-moz-selection { @include selection; }
+::selection { @include selection; }
+
+
+a {
+  color: #00e;
+}
+
+a:visited { 
+  color: #551a8b;
+}
+
+a:hover { 
+  color: #06e;
+}
+
+.chromeframe {
+  margin: 0.2em 0; 
+  background: #ccc; 
+  color: #000; 
+  padding: 0.2em 0; 
+}
+
+
+
+/**
+ * Mobile
+ */
+#main {
+  $main-padding: 20px;
+  max-width: $max-width - ($main-padding * 2);
+  margin: 0 auto;
+  background-color: #fff;
+  padding: $main-padding;
+  @include single-box-shadow($blur: 10px, $color: rgba(0, 0, 0, 0.3));
+}
+
+h1 {
+  font: 700 32px/1 $accent_font;
+  margin: 0 0 30px;
+  color: #555;
+  text-align: center;
+
+  strong {
+    color: #222;
+  }
+}
+
+@mixin item {
+  padding: 7px 0;
+}
+
+#queue {
+  @extend .nav; // No list styles
+  margin: 0 20px;
+
+  li {
+    border-top: 1px solid #ddd;
+    @include item;
+
+    small {
+      font-weight: 400;
+      font-size: 12px;
+    }
+
+    .remove {
+      @extend .ir;
+      background: transparent url("../img/remove.png") no-repeat center;
+      display: inline-block;
+      width: 26px;
+      height: 26px;
+      float: right;
+    }
+
+    .remove:hover {
+      background-image: url("../img/circle_remove.png");
+    }
+  }
+
+  li:first-child {
+    font-size: 24px;
+    font-weight: 700;
+    font-style: italic;
+    border-top: none;
+
+    small {
+      @extend .invisible;
+    }
+  }
+}
+
+#enqueue-form {
+  margin: 0 17px;
+
+  #name {
+    width: 100%;
+    padding: 7px;
+    margin-left: -7px;
+  }
+
+  label {
+    display: block;
+    font-size: 12px;
+  }
+}
+
+#end-matter {
+  max-width: 500px;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 12px;
+  padding: 5px;
+  color: #bbb;
+}
+
+
+
+/**
+ * Non-Mobile
+ */
+@media only screen and (min-width: 35em) {
+
+}
+
+
+
+/**
+ * Helpers
+ * Use SASS @extend to include.
+ */
+.ir { border: 0; font: 0/0 a; text-shadow: none; color: transparent;
+  background-color: transparent; }
+.hidden { display: none !important; visibility: hidden; }
+.visuallyhidden { border: 0; clip: rect(0 0 0 0); height: 1px; margin: -1px;
+  overflow: hidden; padding: 0; position: absolute; width: 1px; }
+.visuallyhidden.focusable:active, .visuallyhidden.focusable:focus { clip: auto;
+ height: auto; margin: 0; overflow: visible; position: static; width: auto; }
+.invisible { visibility: hidden; }
+.clearfix:before, .clearfix:after { content: ""; display: table; }
+.clearfix:after { clear: both; }
+.clearfix { *zoom: 1; }
+
+
+
+/**
+ * Print
+ */
+@media print {
+  * { background: transparent !important; color: #000 !important;
+    box-shadow: none !important; text-shadow: none !important; }
+  a, a:visited { text-decoration: underline; }
+  a[href]:after { content: " (" attr(href) ")"; }
+  abbr[title]:after { content: " (" attr(title) ")"; }
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after { 
+    content: ""; }
+  pre, blockquote { border: 1px solid #999; page-break-inside: avoid; }
+  thead { display: table-header-group; }
+  tr, img { page-break-inside: avoid; }
+  img { max-width: 100% !important; }
+}
