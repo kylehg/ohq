@@ -1,7 +1,7 @@
-<li data-timestamp="{{time_enqueued}}">
+<li data-timestamp="{{enqueue_time}}">
   {{name}}
-  <small><time datetime="{{time_enqueued}}">{{human_time_enqueued}}</time></small>
+  <small><time datetime="{{enqueue_time}}">{{{human_enqueue_time}}</time></small>
   {{#can_edit}}
-    <a class="remove-link" title="Remove this name from the queue" href="javascript:void(0)">[x]</a>
+    <a class="remove" title="Remove this name from the queue" href="javascript:void(0)">[x]</a>
   {{/can_edit}}
 </li>

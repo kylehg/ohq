@@ -56,14 +56,13 @@ app.get('/', function(req, res) {
 
     // Read and send along the templates
     templates: _.map(app.settings['frontend_templates'], function(tplName) {
-      fs.readFile(__dirname + app.settings['templateDir'] + 
-          '/' + tplName + '.hbs', function(fileData) {
-        return {
-          template_name: tplName,
-          template: '' + fileData
-        }
-      });
+      return {
+        template_name: tplName,
+        template: '' + fs.readFileSync(__dirname + 
+            app.settings['templateDir'] + '/' + tplName + '.hbs')
+      };
     })
+
   });
 });
 
